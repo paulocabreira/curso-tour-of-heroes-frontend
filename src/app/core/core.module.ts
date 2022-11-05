@@ -6,14 +6,29 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { MaterialModule } from '../material/material.module';
 import { PageNotFoundComponent } from './components/page-not-found.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
-const COMPONENTS = [MessagesComponent, PageNotFoundComponent, ToolbarComponent];
+const COMPONENTS = [
+  LoadingComponent,
+  MessagesComponent,
+  PageNotFoundComponent,
+  ToolbarComponent
+];
 const MODULES = [FlexLayoutModule, MaterialModule, RouterModule];
 
 @NgModule({
   declarations: [COMPONENTS],
   imports: [CommonModule, MODULES],
-  exports: [COMPONENTS, MODULES]
+  exports: [COMPONENTS, MODULES],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    }
+  ]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule?: CoreModule) {
