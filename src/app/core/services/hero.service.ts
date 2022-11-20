@@ -51,9 +51,10 @@ export class HeroService {
 
   // DELETE /heroes/id
   delete(hero: Hero): Observable<any> {
+    let heroesAttributesBeforeDelete = this.descAttributes(hero);
     return this.http
     .delete<any>(this.getUrl(hero.id))
-    .pipe(tap((hero) => this.log(`deleted ${this.descAttributes(hero)}`))
+    .pipe(tap((hero) => this.log(`deleted ${heroesAttributesBeforeDelete}`))
     );
   }
 
